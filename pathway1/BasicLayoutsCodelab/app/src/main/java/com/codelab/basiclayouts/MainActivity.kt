@@ -22,6 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,6 +100,7 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 @Composable
 fun MySootheApp() {
     // Implement composable here
+    Text(text = "Hello Android")
 }
 
 private val alignYourBodyData = listOf(
