@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,7 +58,7 @@ fun MyApp() {
 }
 
 @Composable
-fun MessageCard(msg: Message) {
+fun CardContent(msg: Message) {
     var isExpanded by remember { mutableStateOf(false) }
     val extraPadding by animateDpAsState(
         targetValue = if (isExpanded) 30.dp else 0.dp,
@@ -100,6 +102,16 @@ fun MessageCard(msg: Message) {
                 )
             }
         }
+    }
+}
+
+@Composable
+fun MessageCard(msg: Message) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp).fillMaxWidth()
+    ) {
+        CardContent(msg = msg)
     }
 }
 
