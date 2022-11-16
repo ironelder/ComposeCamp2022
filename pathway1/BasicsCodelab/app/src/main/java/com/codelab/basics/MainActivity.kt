@@ -4,6 +4,9 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.codelab.basics.ui.theme.BasicsCodelabTheme
 
@@ -54,6 +58,13 @@ fun MyApp() {
 @Composable
 fun MessageCard(msg: Message) {
     var isExpanded by remember { mutableStateOf(false) }
+    val extraPadding by animateDpAsState(
+        targetValue = if (isExpanded) 30.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     Row(modifier = Modifier.padding(all = 8.dp)) {
         Image(
@@ -67,7 +78,9 @@ fun MessageCard(msg: Message) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
+        Column(modifier = Modifier
+            .clickable { isExpanded = !isExpanded }
+            .padding(bottom = extraPadding.coerceAtLeast(0.dp))) {
             Text(
                 text = msg.author,
                 color = MaterialTheme.colorScheme.secondary,
