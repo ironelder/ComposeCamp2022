@@ -13,8 +13,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -22,21 +24,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codelab.basics.ui.theme.BasicsCodelabTheme
 
+data class Message(val author: String, val body: String)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BasicsCodelabTheme {
-                Conversation(messages = SampleData.conversationSample)
+                MyApp()
+//                Conversation(messages = SampleData.conversationSample)
             }
         }
     }
 }
 
-data class Message(val author: String, val body: String)
+@Composable
+fun MyApp() {
+    var shouldShowOnboarding by remember {
+        mutableStateOf(true)
+    }
+    if (shouldShowOnboarding) {
+        OnboardingScreen(onContinueClicked = { shouldShowOnboarding = !shouldShowOnboarding })
+    } else {
+        Conversation(messages = SampleData.conversationSample)
+    }
+}
 
 @Composable
 fun MessageCard(msg: Message) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Row(modifier = Modifier.padding(all = 8.dp)) {
         Image(
             painter = painterResource(id = R.drawable.profile),
@@ -48,8 +65,6 @@ fun MessageCard(msg: Message) {
         )
 
         Spacer(modifier = Modifier.width(8.dp))
-
-        var isExpanded by remember { mutableStateOf(false) }
 
         Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
             Text(
@@ -79,6 +94,25 @@ fun Conversation(messages: List<Message>) {
     LazyColumn {
         items(messages) { message ->
             MessageCard(msg = message)
+        }
+    }
+}
+
+@Composable
+fun OnboardingScreen(onContinueClicked: () -> Unit) {
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Welcome to the Basics Codelab!")
+            Button(
+                modifier = Modifier.padding(vertical = 24.dp),
+                onClick = onContinueClicked
+            ) {
+                Text(text = "Continue")
+            }
         }
     }
 }
