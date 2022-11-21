@@ -233,7 +233,11 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 @Composable
 fun MySootheApp() {
     // Implement composable here
-    SearchBar()
+    MySootheTheme() {
+        Scaffold(bottomBar = { SootheBottomNavigation() }) { paddingValues ->
+            HomeScreen(Modifier.padding(paddingValues))
+        }
+    }
 }
 
 private val alignYourBodyData = listOf(
@@ -259,6 +263,10 @@ private data class DrawableStringPair(
     @StringRes val text: Int
 )
 
+
+/*
+ Preview ============================================================
+ */
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun SearchBarPreview() {
