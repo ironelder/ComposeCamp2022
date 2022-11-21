@@ -151,7 +151,7 @@ fun FavoriteCollectionsGrid(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
+        modifier = modifier.height(120.dp)
     ) {
         items(favoriteCollectionsData) { item ->
             FavoriteCollectionCard(
